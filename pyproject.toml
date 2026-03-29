@@ -6,6 +6,7 @@ requires-python = ">=3.12"
 license = {text = "MIT"}
 dependencies = [
     "dkb-runtime",
+    "pyyaml>=6.0",
 ]
 
 [project.optional-dependencies]
