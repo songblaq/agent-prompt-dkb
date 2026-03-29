@@ -1,0 +1,20 @@
+version: "0.1.0"
+
+targets:
+  claude-code:
+    enabled: true
+    output_dir: "./dist/claude-code"
+    format: "claude-code-plugin"
+    description: "Claude Code plugin format (agents/, skills/, hooks/)"
+
+  skill-md:
+    enabled: true
+    output_dir: "./dist/skill-md"
+    format: "skill-md-standard"
+    description: "Agent Skills open standard (SKILL.md)"
+
+  releases:
+    enabled: true
+    output_dir: "./dist/releases"
+    format: "versioned-snapshot"
+    description: "Versioned release snapshots"

@@ -1,0 +1,19 @@
+[project]
+name = "agent-prompt-dkb"
+version = "0.1.0"
+description = "Agent prompt curation instance powered by DKB"
+requires-python = ">=3.12"
+license = {text = "MIT"}
+dependencies = [
+    "dkb-runtime",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.4",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

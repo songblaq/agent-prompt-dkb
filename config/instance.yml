@@ -1,0 +1,13 @@
+instance:
+  name: "agent-prompt"
+  description: "Agent prompt curation instance"
+  version: "0.1.0"
+
+database:
+  schema: "dkb"
+
+storage:
+  snapshots_dir: "./storage/snapshots"
+
+upstream:
+  ai_store_url: "http://localhost:8001"

@@ -1,0 +1,40 @@
+version: "0.1.0"
+
+packs:
+  safe-starter:
+    label: "Safe Starter Pack"
+    description: "Verified, well-documented basics for beginners"
+    type: starter
+    selection:
+      trust_state: [verified]
+      legal_state: [clear, custom]
+      min_scores:
+        clarity.description_clarity: 0.6
+        clarity.naming_clarity: 0.6
+      exclude_recommendation: [deprecated, excluded]
+
+  review-focused:
+    label: "Review Pack"
+    description: "Review-oriented skills and workflows"
+    type: role
+    selection:
+      min_scores:
+        function.review: 0.7
+        form.workflowness: 0.5
+
+  planning-workflow:
+    label: "Planning Pack"
+    description: "Planning-focused workflows and skills"
+    type: role
+    selection:
+      min_scores:
+        function.planning: 0.7
+        form.workflowness: 0.6
+
+  coding-assistant:
+    label: "Coding Assistant Pack"
+    description: "Coding-focused skills and agents"
+    type: role
+    selection:
+      min_scores:
+        function.coding: 0.7
