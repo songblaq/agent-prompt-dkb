@@ -15,6 +15,12 @@ dev = [
     "ruff>=0.4",
 ]
 
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["agent_prompt_dkb"]
+
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
