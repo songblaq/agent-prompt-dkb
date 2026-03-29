@@ -2,7 +2,9 @@
 __pycache__/
 *.py[cod]
 *.egg-info/
-dist/
+# Distribution — generated outputs under dist/; README is tracked
+dist/*
+!dist/README.md
 build/
 .venv/
 venv/
