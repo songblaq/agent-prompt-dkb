@@ -8,6 +8,10 @@ include_categories:
   - claude-code
   - codex
   - agent-skills-community
+  - clawhub
+  - cursor-rules
+  - awesome-collections
+  - skills-platforms
 
 exclude_categories:
   - mcp
