@@ -1,3 +1,5 @@
+![CI](https://github.com/songblaq/agent-prompt-dkb/actions/workflows/ci.yml/badge.svg)
+
 # agent-prompt-dkb
 
 AI 에이전트 프롬프트를 큐레이션하여 Claude Code 플러그인 등으로 제공하는 **DKB 인스턴스**.
