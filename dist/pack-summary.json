@@ -1,0 +1,144 @@
+{
+  "version": "0.1.0",
+  "source_catalog": "sample-catalog.json",
+  "packs": [
+    {
+      "key": "safe-starter",
+      "label": "Safe Starter Pack",
+      "description": "Verified, well-documented basics for beginners",
+      "type": "starter",
+      "directive_count": 4,
+      "avg_scores_by_group": {
+        "form": 0.6566666666666666,
+        "function": 0.62375,
+        "clarity": 0.69
+      },
+      "trust_distribution": {
+        "verified": 4
+      },
+      "legal_distribution": {
+        "clear": 3,
+        "custom": 1
+      },
+      "policy_compliance": "compliant",
+      "directives": [
+        {
+          "name": "Safe Starter — Code Review Checklist",
+          "verdict": "verified",
+          "directive_id": "a1000000-0000-4000-8000-000000000001"
+        },
+        {
+          "name": "Official Skills — PR hygiene",
+          "verdict": "verified",
+          "directive_id": "a1000000-0000-4000-8000-000000000002"
+        },
+        {
+          "name": "Refactor Guardrails",
+          "verdict": "verified",
+          "directive_id": "a1000000-0000-4000-8000-000000000006"
+        },
+        {
+          "name": "Community Skill — Incident Triage",
+          "verdict": "verified",
+          "directive_id": "a1000000-0000-4000-8000-000000000007"
+        }
+      ]
+    },
+    {
+      "key": "review-focused",
+      "label": "Review Pack",
+      "description": "Review-oriented skills and workflows",
+      "type": "role",
+      "directive_count": 2,
+      "avg_scores_by_group": {
+        "form": 0.6699999999999999,
+        "function": 0.8,
+        "clarity": 0.655
+      },
+      "trust_distribution": {
+        "reviewing": 1,
+        "verified": 1
+      },
+      "legal_distribution": {
+        "clear": 2
+      },
+      "policy_compliance": "review",
+      "directives": [
+        {
+          "name": "Safe Starter — Code Review Checklist",
+          "verdict": "verified",
+          "directive_id": "a1000000-0000-4000-8000-000000000001"
+        },
+        {
+          "name": "Deep Review Playbook",
+          "verdict": "reviewing",
+          "directive_id": "a1000000-0000-4000-8000-000000000003"
+        }
+      ]
+    },
+    {
+      "key": "planning-workflow",
+      "label": "Planning Pack",
+      "description": "Planning-focused workflows and skills",
+      "type": "role",
+      "directive_count": 2,
+      "avg_scores_by_group": {
+        "form": 0.63,
+        "function": 0.775,
+        "clarity": 0.565
+      },
+      "trust_distribution": {
+        "reviewing": 2
+      },
+      "legal_distribution": {
+        "clear": 2
+      },
+      "policy_compliance": "review",
+      "directives": [
+        {
+          "name": "Sprint Planning Template",
+          "verdict": "reviewing",
+          "directive_id": "a1000000-0000-4000-8000-000000000004"
+        },
+        {
+          "name": "Clawhub — Docs-First Feature",
+          "verdict": "reviewing",
+          "directive_id": "a1000000-0000-4000-8000-000000000008"
+        }
+      ]
+    },
+    {
+      "key": "coding-assistant",
+      "label": "Coding Assistant Pack",
+      "description": "Coding-focused skills and agents",
+      "type": "role",
+      "directive_count": 2,
+      "avg_scores_by_group": {
+        "form": 0.7,
+        "function": 0.7025,
+        "clarity": 0.5700000000000001
+      },
+      "trust_distribution": {
+        "reviewing": 1,
+        "verified": 1
+      },
+      "legal_distribution": {
+        "clear": 1,
+        "custom": 1
+      },
+      "policy_compliance": "review",
+      "directives": [
+        {
+          "name": "Pair Programming Cadence",
+          "verdict": "reviewing",
+          "directive_id": "a1000000-0000-4000-8000-000000000005"
+        },
+        {
+          "name": "Refactor Guardrails",
+          "verdict": "verified",
+          "directive_id": "a1000000-0000-4000-8000-000000000006"
+        }
+      ]
+    }
+  ]
+}
