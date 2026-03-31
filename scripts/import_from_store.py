@@ -148,6 +148,11 @@ def _get_dimension_model(db: Session) -> DimensionModel:
 def _build_key_to_group(config: dict[str, Any]) -> dict[str, str]:
     out: dict[str, str] = {}
     for g in config.get("groups", []):
+        if isinstance(g, str):
+            # Reference seed uses a flat list of group names; dotted score keys still resolve via parse_dimension_storage_key.
+            continue
+        if not isinstance(g, dict):
+            continue
         name = g.get("name")
         if not name:
             continue

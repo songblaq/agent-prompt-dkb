@@ -16,6 +16,7 @@ venv/
 # Storage — generated import/packs; sample-catalog.json is tracked
 storage/imported/
 storage/packs/
+storage/tmp/
 
 # OS
 .DS_Store
