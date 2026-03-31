@@ -12,8 +12,9 @@ venv/
 # Environment
 .env
 
-# Storage (local data)
-storage/
+# Storage — generated import/packs; sample-catalog.json is tracked
+storage/imported/
+storage/packs/
 
 # OS
 .DS_Store

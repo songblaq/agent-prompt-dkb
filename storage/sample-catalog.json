@@ -1,0 +1,262 @@
+{
+  "version": "0.1.0-sample",
+  "directives": [
+    {
+      "directive_id": "a1000000-0000-4000-8000-000000000001",
+      "preferred_name": "Safe Starter — Code Review Checklist",
+      "normalized_summary": "Use a short checklist before merging: tests, lint, security notes, and rollback plan.",
+      "category": "claude-code",
+      "status": "active",
+      "canonical_meta": {"source_category": "claude-code"},
+      "scores": {
+        "clarity.description_clarity": {"score": 0.82, "confidence": 0.9},
+        "clarity.naming_clarity": {"score": 0.78, "confidence": 0.85},
+        "function.review": {"score": 0.72, "confidence": 0.8},
+        "form.workflowness": {"score": 0.62, "confidence": 0.75}
+      },
+      "verdict": {
+        "provenance": "catalog",
+        "trust": "verified",
+        "legal": "clear",
+        "lifecycle": "active",
+        "recommendation": "candidate"
+      }
+    },
+    {
+      "directive_id": "a1000000-0000-4000-8000-000000000002",
+      "preferred_name": "Official Skills — PR hygiene",
+      "normalized_summary": "Keep PR titles conventional, link issues, and prefer small diffs.",
+      "category": "agent-skills-official",
+      "status": "active",
+      "scores": {
+        "clarity.description_clarity": {"score": 0.7, "confidence": 0.8},
+        "clarity.naming_clarity": {"score": 0.68, "confidence": 0.8},
+        "function.review": {"score": 0.55, "confidence": 0.7},
+        "form.workflowness": {"score": 0.58, "confidence": 0.72}
+      },
+      "verdict": {
+        "trust": "verified",
+        "legal": "clear",
+        "lifecycle": "active",
+        "recommendation": "candidate"
+      }
+    },
+    {
+      "directive_id": "a1000000-0000-4000-8000-000000000003",
+      "preferred_name": "Deep Review Playbook",
+      "normalized_summary": "Structured review: correctness, edge cases, naming, and docs.",
+      "category": "awesome-collections",
+      "status": "active",
+      "scores": {
+        "clarity.description_clarity": {"score": 0.5, "confidence": 0.6},
+        "clarity.naming_clarity": {"score": 0.52, "confidence": 0.6},
+        "function.review": {"score": 0.88, "confidence": 0.9},
+        "form.workflowness": {"score": 0.72, "confidence": 0.85}
+      },
+      "verdict": {
+        "trust": "reviewing",
+        "legal": "clear",
+        "lifecycle": "active",
+        "recommendation": "candidate"
+      }
+    },
+    {
+      "directive_id": "a1000000-0000-4000-8000-000000000004",
+      "preferred_name": "Sprint Planning Template",
+      "normalized_summary": "Capture goal, risks, owners, and exit criteria before execution.",
+      "category": "skills-platforms",
+      "status": "active",
+      "scores": {
+        "clarity.description_clarity": {"score": 0.55, "confidence": 0.65},
+        "clarity.naming_clarity": {"score": 0.54, "confidence": 0.65},
+        "function.planning": {"score": 0.81, "confidence": 0.88},
+        "form.workflowness": {"score": 0.65, "confidence": 0.8}
+      },
+      "verdict": {
+        "trust": "reviewing",
+        "legal": "clear",
+        "lifecycle": "active",
+        "recommendation": "candidate"
+      }
+    },
+    {
+      "directive_id": "a1000000-0000-4000-8000-000000000005",
+      "preferred_name": "Pair Programming Cadence",
+      "normalized_summary": "Rotate driver/navigator every 25 minutes; capture decisions in the thread.",
+      "category": "codex",
+      "status": "active",
+      "scores": {
+        "clarity.description_clarity": {"score": 0.48, "confidence": 0.55},
+        "clarity.naming_clarity": {"score": 0.5, "confidence": 0.55},
+        "function.coding": {"score": 0.76, "confidence": 0.82},
+        "form.workflowness": {"score": 0.7, "confidence": 0.78}
+      },
+      "verdict": {
+        "trust": "reviewing",
+        "legal": "clear",
+        "lifecycle": "active",
+        "recommendation": "candidate"
+      }
+    },
+    {
+      "directive_id": "a1000000-0000-4000-8000-000000000006",
+      "preferred_name": "Refactor Guardrails",
+      "normalized_summary": "Prefer mechanical refactors; add characterization tests before behavior changes.",
+      "category": "cursor-rules",
+      "status": "active",
+      "scores": {
+        "clarity.description_clarity": {"score": 0.66, "confidence": 0.75},
+        "clarity.naming_clarity": {"score": 0.64, "confidence": 0.74},
+        "function.coding": {"score": 0.84, "confidence": 0.9},
+        "function.review": {"score": 0.45, "confidence": 0.5}
+      },
+      "verdict": {
+        "trust": "verified",
+        "legal": "custom",
+        "lifecycle": "active",
+        "recommendation": "candidate"
+      }
+    },
+    {
+      "directive_id": "a1000000-0000-4000-8000-000000000007",
+      "preferred_name": "Community Skill — Incident Triage",
+      "normalized_summary": "Stabilize, communicate, timeline, then root cause; avoid speculative fixes.",
+      "category": "agent-skills-community",
+      "status": "active",
+      "scores": {
+        "clarity.description_clarity": {"score": 0.61, "confidence": 0.7},
+        "clarity.naming_clarity": {"score": 0.63, "confidence": 0.7},
+        "function.planning": {"score": 0.58, "confidence": 0.65},
+        "form.workflowness": {"score": 0.77, "confidence": 0.8}
+      },
+      "verdict": {
+        "trust": "verified",
+        "legal": "clear",
+        "lifecycle": "active",
+        "recommendation": "candidate"
+      }
+    },
+    {
+      "directive_id": "a1000000-0000-4000-8000-000000000008",
+      "preferred_name": "Clawhub — Docs-First Feature",
+      "normalized_summary": "Draft user-facing docs before implementation to surface gaps early.",
+      "category": "clawhub",
+      "status": "active",
+      "scores": {
+        "clarity.description_clarity": {"score": 0.58, "confidence": 0.68},
+        "clarity.naming_clarity": {"score": 0.59, "confidence": 0.68},
+        "function.planning": {"score": 0.74, "confidence": 0.8},
+        "form.workflowness": {"score": 0.61, "confidence": 0.72}
+      },
+      "verdict": {
+        "trust": "reviewing",
+        "legal": "clear",
+        "lifecycle": "active",
+        "recommendation": "candidate"
+      }
+    },
+    {
+      "directive_id": "a1000000-0000-4000-8000-000000000009",
+      "preferred_name": "Deprecated Style Guide",
+      "normalized_summary": "Legacy formatting rules (superseded by org-wide formatter).",
+      "category": "claude-code",
+      "status": "active",
+      "scores": {
+        "clarity.description_clarity": {"score": 0.8, "confidence": 0.85},
+        "clarity.naming_clarity": {"score": 0.79, "confidence": 0.85},
+        "function.coding": {"score": 0.5, "confidence": 0.55}
+      },
+      "verdict": {
+        "trust": "verified",
+        "legal": "clear",
+        "lifecycle": "active",
+        "recommendation": "deprecated"
+      }
+    },
+    {
+      "directive_id": "a1000000-0000-4000-8000-00000000000a",
+      "preferred_name": "Excluded MCP Server Template",
+      "normalized_summary": "Would configure an MCP bridge (category excluded by filter).",
+      "category": "mcp",
+      "status": "active",
+      "scores": {
+        "clarity.description_clarity": {"score": 0.9, "confidence": 0.9},
+        "clarity.naming_clarity": {"score": 0.9, "confidence": 0.9}
+      },
+      "verdict": {
+        "trust": "verified",
+        "legal": "clear",
+        "lifecycle": "active",
+        "recommendation": "candidate"
+      }
+    },
+    {
+      "directive_id": "a1000000-0000-4000-8000-00000000000b",
+      "preferred_name": "Low Clarity Blob",
+      "normalized_summary": "Unclear text.",
+      "category": "claude-code",
+      "status": "active",
+      "scores": {
+        "clarity.description_clarity": {"score": 0.1, "confidence": 0.3},
+        "clarity.naming_clarity": {"score": 0.12, "confidence": 0.3}
+      },
+      "verdict": {
+        "trust": "reviewing",
+        "legal": "clear",
+        "lifecycle": "active",
+        "recommendation": "candidate"
+      }
+    },
+    {
+      "directive_id": "a1000000-0000-4000-8000-00000000000c",
+      "preferred_name": "Disappeared Resource",
+      "normalized_summary": "Source no longer reachable.",
+      "category": "agent-skills-official",
+      "status": "active",
+      "scores": {
+        "clarity.description_clarity": {"score": 0.75, "confidence": 0.8},
+        "clarity.naming_clarity": {"score": 0.74, "confidence": 0.8}
+      },
+      "verdict": {
+        "trust": "reviewing",
+        "legal": "clear",
+        "lifecycle": "disappeared",
+        "recommendation": "candidate"
+      }
+    },
+    {
+      "directive_id": "a1000000-0000-4000-8000-00000000000d",
+      "preferred_name": "Archived Playbook",
+      "normalized_summary": "Old release checklist.",
+      "category": "awesome-collections",
+      "status": "active",
+      "scores": {
+        "clarity.description_clarity": {"score": 0.77, "confidence": 0.82},
+        "clarity.naming_clarity": {"score": 0.76, "confidence": 0.82}
+      },
+      "verdict": {
+        "trust": "verified",
+        "legal": "clear",
+        "lifecycle": "archived",
+        "recommendation": "candidate"
+      }
+    },
+    {
+      "directive_id": "a1000000-0000-4000-8000-00000000000e",
+      "preferred_name": "LLM Tools Promo",
+      "normalized_summary": "Promotional tooling copy.",
+      "category": "llm-tools",
+      "status": "active",
+      "scores": {
+        "clarity.description_clarity": {"score": 0.85, "confidence": 0.88},
+        "clarity.naming_clarity": {"score": 0.84, "confidence": 0.88}
+      },
+      "verdict": {
+        "trust": "verified",
+        "legal": "clear",
+        "lifecycle": "active",
+        "recommendation": "candidate"
+      }
+    }
+  ]
+}
