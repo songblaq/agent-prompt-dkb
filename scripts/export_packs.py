@@ -12,6 +12,7 @@ _SCRIPT_DIR = Path(__file__).resolve().parent
 if str(_SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(_SCRIPT_DIR))
 
+from dkb_runtime.services.token_exporter import export_batch_markdown
 from file_pipeline_common import repo_root
 
 
@@ -117,34 +118,13 @@ def export_skill_md_pack(pack: dict, out_dir: Path) -> None:
 
 
 def export_optimized_pack(pack: dict, out_dir: Path) -> None:
+    """Write `pack.md` using dkb-runtime compact Markdown (token-efficient)."""
     out_dir.mkdir(parents=True, exist_ok=True)
     pack_key = str(pack.get("pack_key", "pack"))
-    label = pack.get("label") or pack_key
-    directives = pack.get("directives") or []
-
-    lines: list[str] = [
-        f"# {label}",
-        f"key: {pack_key}",
-        f"items: {len(directives)}",
-        "",
-    ]
-
-    for i, d in enumerate(directives, start=1):
-        if not isinstance(d, dict):
-            continue
-        title = _directive_title(d, i)
-        did = str(d.get("directive_id", ""))
-        cat = d.get("category") or ""
-        body = _directive_body(d).replace("\n", " ").strip()
-        lines.append(f"## {i}")
-        lines.append(f"id: {did}")
-        lines.append(f"name: {title}")
-        if cat:
-            lines.append(f"category: {cat}")
-        lines.append(f"text: {body}")
-        lines.append("")
-
-    (out_dir / "pack.md").write_text("\n".join(lines).rstrip() + "\n", encoding="utf-8")
+    label = str(pack.get("label") or pack_key)
+    directives = [d for d in (pack.get("directives") or []) if isinstance(d, dict)]
+    text = export_batch_markdown(directives, label, pack_key=pack_key)
+    (out_dir / "pack.md").write_text(text, encoding="utf-8")
 
 
 def main() -> None:
@@ -163,6 +143,12 @@ def main() -> None:
         type=Path,
         default=root / "dist",
         help="dist/ root (creates claude-code, skill-md, optimized)",
+    )
+    parser.add_argument(
+        "--format",
+        choices=("all", "claude-code", "skill-md", "optimized"),
+        default="all",
+        help="Export layout(s): all (default), or a single format",
     )
     args = parser.parse_args()
 
@@ -185,11 +171,21 @@ def main() -> None:
         pack_key = str(pack.get("pack_key", path.stem))
         n = pack.get("directive_count", len(pack.get("directives") or []))
 
-        export_claude_code_pack(pack, cc_root / pack_key)
-        export_skill_md_pack(pack, sk_root / pack_key)
-        export_optimized_pack(pack, opt_root / pack_key)
+        if args.format in ("all", "claude-code"):
+            export_claude_code_pack(pack, cc_root / pack_key)
+        if args.format in ("all", "skill-md"):
+            export_skill_md_pack(pack, sk_root / pack_key)
+        if args.format in ("all", "optimized"):
+            export_optimized_pack(pack, opt_root / pack_key)
 
-        print(f"  {pack_key}: {n} directives → claude-code, skill-md, optimized")
+        targets = []
+        if args.format in ("all", "claude-code"):
+            targets.append("claude-code")
+        if args.format in ("all", "skill-md"):
+            targets.append("skill-md")
+        if args.format in ("all", "optimized"):
+            targets.append("optimized")
+        print(f"  {pack_key}: {n} directives → {', '.join(targets)}")
 
     print(f"\nOutputs under {args.dist_root}\n")
 
