@@ -40,6 +40,34 @@ python scripts/export_claude_code.py
 python scripts/export_skill_md.py
 ```
 
+### Auto-update pipeline
+
+When [ai-store-dkb](https://github.com/songblaq/ai-store-dkb) changes, this repo can refresh imports, DB-backed curation, file-based packs, and exports in one go.
+
+**GitHub Actions** (`.github/workflows/auto-update.yml`):
+
+| Trigger | Purpose |
+|--------|---------|
+| `repository_dispatch` type `catalog-updated` | Upstream (e.g. ai-store-dkb) notifies after catalog publish |
+| `workflow_dispatch` | Manual run from the Actions tab |
+| Cron `0 9 * * 1` | Weekly check every Monday 09:00 UTC |
+
+The workflow checks out `songblaq/ai-store-dkb`, moves that tree to the **latest GitHub release tag** when one exists (otherwise keeps the default branch), resolves `catalog.json` (under `dist/catalog/` or elsewhere in that tree), runs Alembic + reference seed on an ephemeral Postgres, then: `import_catalog.py` → `import_from_store.py --from-catalog` → `curate.py` → `build_packs.py` → `export_packs.py`. If generated artifacts under `storage/` and `dist/` change, the job commits and pushes (paths are force-added because they are normally gitignored).
+
+**Upstream dispatch** (optional): in ai-store-dkb, call the GitHub API to trigger this repo, for example:
+
+`POST /repos/songblaq/agent-prompt-dkb/dispatches` with body `{"event_type":"catalog-updated","client_payload":{}}` using a token with `contents` access to agent-prompt-dkb.
+
+**Local full pipeline** (after DB is migrated and `schema/02_dkb_seed_reference_v0_1.sql` from dkb-runtime has been applied at least once):
+
+```bash
+chmod +x scripts/auto_update.sh
+export DATABASE_URL=postgresql+psycopg://dkb:dkb_dev@localhost:5433/agent_prompt_dkb
+./scripts/auto_update.sh
+```
+
+`CATALOG_PATH` defaults to `storage/tmp/catalog.json`. If that file is missing, the script tries the GitHub Contents API via `gh` (repo `AI_STORE_REPO`, default `songblaq/ai-store-dkb`) or a sibling checkout at `../ai-store-dkb/dist/catalog/catalog.json`.
+
 ## Part of DKB Ecosystem
 
 | Repository | Role |

@@ -1,0 +1,134 @@
+name: Auto-update from ai-store-dkb
+
+on:
+  repository_dispatch:
+    types: [catalog-updated]
+  workflow_dispatch:
+  schedule:
+    # Every Monday 09:00 UTC
+    - cron: "0 9 * * 1"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: auto-update-pipeline
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: pgvector/pgvector:pg17
+        env:
+          POSTGRES_DB: dkb_auto
+          POSTGRES_USER: dkb
+          POSTGRES_PASSWORD: dkb_auto
+        ports:
+          - "5432:5432"
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout agent-prompt-dkb
+        uses: actions/checkout@v4
+
+      - name: Checkout ai-store-dkb (catalog source)
+        uses: actions/checkout@v4
+        with:
+          repository: songblaq/ai-store-dkb
+          path: .upstream/ai-store-dkb
+
+      - name: Prefer latest release tag (published catalog)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          TAG="$(gh api repos/songblaq/ai-store-dkb/releases/latest --jq -r .tag_name 2>/dev/null || true)"
+          if [ -z "$TAG" ] || [ "$TAG" = "null" ]; then
+            echo "No release tag; using default branch checkout."
+            exit 0
+          fi
+          cd .upstream/ai-store-dkb
+          git fetch --depth 1 origin "refs/tags/${TAG}:refs/tags/${TAG}"
+          git checkout "$TAG"
+          echo "Checked out ai-store-dkb at $TAG"
+
+      - name: Resolve catalog.json path
+        id: catalog
+        run: |
+          set -euo pipefail
+          C=".upstream/ai-store-dkb/dist/catalog/catalog.json"
+          if [ ! -f "$C" ]; then
+            C="$(find .upstream/ai-store-dkb -name catalog.json -type f 2>/dev/null | head -1 || true)"
+          fi
+          if [ -z "${C:-}" ] || [ ! -f "$C" ]; then
+            echo "Could not find catalog.json in songblaq/ai-store-dkb checkout."
+            exit 1
+          fi
+          echo "path=$C" >> "$GITHUB_OUTPUT"
+          echo "Using catalog: $C"
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install PostgreSQL client
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+
+      - name: Clone dkb-runtime (Alembic + seed SQL)
+        run: git clone --depth 1 https://github.com/songblaq/dkb-runtime.git /tmp/dkb-runtime
+
+      - name: Install Python dependencies
+        run: |
+          pip install -e ".[dev]"
+          pip install -e /tmp/dkb-runtime
+
+      - name: Migrate and seed database
+        env:
+          DATABASE_URL: postgresql+psycopg://dkb:dkb_auto@localhost:5432/dkb_auto
+          PGPASSWORD: dkb_auto
+        run: |
+          set -euo pipefail
+          cd /tmp/dkb-runtime
+          alembic upgrade head
+          psql -h localhost -p 5432 -U dkb -d dkb_auto -v ON_ERROR_STOP=1 -f schema/02_dkb_seed_reference_v0_1.sql
+
+      - name: Run import, curation, packs, export
+        env:
+          DATABASE_URL: postgresql+psycopg://dkb:dkb_auto@localhost:5432/dkb_auto
+        run: |
+          set -euo pipefail
+          CATALOG="${{ steps.catalog.outputs.path }}"
+          python scripts/import_catalog.py --catalog "$CATALOG"
+          python scripts/import_from_store.py --from-catalog "$CATALOG"
+          python scripts/curate.py
+          python scripts/build_packs.py
+          python scripts/export_packs.py
+
+      - name: Commit and push if changed
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f storage/imported/directives.json
+          shopt -s nullglob
+          packs=(storage/packs/*.json)
+          if [ ${#packs[@]} -gt 0 ]; then
+            git add -f "${packs[@]}"
+          fi
+          for d in dist/claude-code dist/skill-md dist/optimized; do
+            if [ -d "$d" ]; then
+              git add -f "$d"
+            fi
+          done
+          if git diff --staged --quiet; then
+            echo "No tracked artifact changes to commit."
+            exit 0
+          fi
+          git commit -m "chore: sync catalog from ai-store-dkb"
+          git push
