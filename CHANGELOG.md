@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.2.0 (2026-03-31)
+
+### Added
+- File-based import from ai-store catalog
+- Pack build + multi-format export (claude-code, skill-md, optimized)
+- Pack summary export for comparison UI
+
 ## v0.1.0 (2026-03-30)
 
 ### Added
