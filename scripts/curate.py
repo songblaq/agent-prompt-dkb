@@ -41,13 +41,19 @@ def main() -> None:
 
     pack_defs_path = Path(__file__).resolve().parent.parent / "config" / "pack_definitions.yml"
     pack_defs = load_pack_definitions(pack_defs_path)
+    pack_list = iter_pack_defs(pack_defs)
+    total_packs = len(pack_list)
 
     try:
-        for pack_key, pack_def in iter_pack_defs(pack_defs):
+        summary: list[tuple[str, str, int, str]] = []
+
+        for idx, (pack_key, pack_def) in enumerate(pack_list, start=1):
             name = pack_def.get("label") or pack_def.get("name") or pack_key
             goal = pack_def.get("description") or pack_def.get("goal") or ""
             pack_type = pack_def.get("type", "custom")
             selection_policy = pack_def.get("selection") or pack_def.get("selection_policy") or {}
+
+            print(f"\n[{idx}/{total_packs}] Ensuring pack record: {pack_key} ({name})")
 
             existing = db.scalars(select(Pack).where(Pack.pack_key == pack_key)).first()
 
@@ -64,10 +70,14 @@ def main() -> None:
             else:
                 pack = existing
 
-            print(f"\n--- Building pack: {pack.pack_name} ---")
+            print(f"  Building: {pack.pack_name} …")
             result = build_pack(db, pack.pack_id)
-            print(f"  Items: {result.item_count}, Status: {result.status}")
+            print(f"  Done — items: {result.item_count}, status: {result.status}")
+            summary.append((pack_key, pack.pack_name, result.item_count, result.status))
 
+        print("\n=== Pack summary (items per pack) ===")
+        for pack_key, pack_name, n_items, status in summary:
+            print(f"  {pack_key}: {n_items} items ({status}) — {pack_name}")
         print("\n=== Curation complete ===")
 
     finally:
