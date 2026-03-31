@@ -5,6 +5,7 @@ __pycache__/
 # Distribution — generated outputs under dist/; README is tracked
 dist/*
 !dist/README.md
+!dist/pack-summary.json
 build/
 .venv/
 venv/
